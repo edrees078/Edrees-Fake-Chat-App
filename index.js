@@ -1,11 +1,13 @@
+// ---------- ALWAYS START FRESH ----------
+localStorage.removeItem('idrisChatMessages'); // in case an old version stored this
+// ----------------------------------------
+
 const messagesContent = $('.msgs-content');
 const messageInput = $('.msg-input');
 const messageSubmit = $('.msg-submit');
 const typingStats = $('.typing-stats');
 const avatarImage = 'fox.webp';
 
-const STORAGE_KEY_MESSAGES = 'idrisChatMessages';
-const STORAGE_KEY_USER = 'idrisChatUser';
 const STORAGE_KEY_THEME = 'idrisChatTheme';
 
 let minutes = -1;
@@ -13,7 +15,7 @@ let lastMessageDate = '';
 let typingStartTime = null;
 let lastUserMessageText = '';
 let fakeIndex = 0;
-let currentUser = null;
+let currentUserName = null;
 
 const fakeMessages = [
     'Interesting!',
@@ -29,38 +31,20 @@ const fakeMessages = [
 // =============== INITIALIZATION ===============
 
 $(window).on('load', function () {
-    // Apply saved theme
+    // Apply saved theme (name is NOT saved)
     const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || 'theme-dark';
     applyTheme(savedTheme);
 
     // Init scrollbar
     messagesContent.mCustomScrollbar();
 
-    // Setup overlay / user
-    const storedUser = localStorage.getItem(STORAGE_KEY_USER);
-    if (storedUser) {
-        try {
-            currentUser = JSON.parse(storedUser);
-        } catch (e) {
-            currentUser = null;
-        }
-    }
+    // Ensure empty chat each time
+    $('.mCSB_container').empty();
+    minutes = -1;
+    lastMessageDate = '';
 
-    if (currentUser && currentUser.name) {
-        setUserName(currentUser.name);
-        $('.setup-overlay').hide();
-        const count = loadHistory();
-        if (!count) {
-            setTimeout(function () {
-                addMessageToPage(
-                    `Hi ${currentUser.name}, I'm Idris Bot 🤖. Type /help to see what I can do.`,
-                    false
-                );
-            }, 600);
-        }
-    } else {
-        $('.setup-overlay').show();
-    }
+    // Always ask for the name again
+    $('.setup-overlay').show();
 
     setupEvents();
 });
@@ -72,23 +56,20 @@ function setupEvents() {
         if (!name) {
             name = 'Guest';
         }
-        currentUser = { name: name };
-        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+        currentUserName = name;
         setUserName(name);
         $('.setup-overlay').fadeOut(200);
 
-        const count = loadHistory();
-        if (!count) {
-            setTimeout(function () {
-                addMessageToPage(
-                    `Hi ${name}, I'm Idris Bot 🤖. Type /help to see what I can do.`,
-                    false
-                );
-            }, 600);
-        }
+        // Greeting at start of every new session
+        setTimeout(function () {
+            addMessageToPage(
+                `Hi ${name}, I'm Edrees Bot 🤖. Type /help to see what I can do.`,
+                false
+            );
+        }, 600);
     });
 
-    // Allow Enter to start chat in overlay
+    // Enter to start chat in overlay
     $('#user-name-input').on('keydown', function (e) {
         if (e.which === 13) {
             $('#start-chat').click();
@@ -130,7 +111,7 @@ function applyTheme(theme) {
 // =============== USER / TITLE ===============
 
 function setUserName(name) {
-    $('.chat-title .title-text h1').text(name);
+    $('.chat-title .title-text h1').text(name.toUpperCase());
 }
 
 // =============== SCROLLBAR & TIMESTAMP ===============
@@ -187,46 +168,9 @@ function addDateSeparator(time) {
     $('.mCSB_container').append(sep);
 }
 
-// =============== LOCAL STORAGE ===============
-
-function saveMessage(text, isPersonal, time) {
-    const t = time || new Date();
-    let arr = [];
-    const existing = localStorage.getItem(STORAGE_KEY_MESSAGES);
-    if (existing) {
-        try {
-            arr = JSON.parse(existing) || [];
-        } catch (e) {
-            arr = [];
-        }
-    }
-    arr.push({
-        text: text,
-        isPersonal: !!isPersonal,
-        time: t.getTime()
-    });
-    localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(arr));
-}
-
-function loadHistory() {
-    const existing = localStorage.getItem(STORAGE_KEY_MESSAGES);
-    if (!existing) return 0;
-    let arr;
-    try {
-        arr = JSON.parse(existing) || [];
-    } catch (e) {
-        return 0;
-    }
-    arr.forEach(function (item) {
-        const time = item.time ? new Date(item.time) : new Date();
-        addMessageToPage(item.text, item.isPersonal, time, true);
-    });
-    return arr.length;
-}
-
 // =============== MESSAGE RENDERING ===============
 
-function addMessageToPage(msg, isPersonal = false, time = new Date(), skipSave = false) {
+function addMessageToPage(msg, isPersonal = false, time = new Date()) {
     addDateSeparator(time);
 
     const message = $('<div class="msg"></div>').text(msg);
@@ -243,10 +187,6 @@ function addMessageToPage(msg, isPersonal = false, time = new Date(), skipSave =
     $('.mCSB_container').append(message);
     addTimestamp(time);
     updateScrollbar();
-
-    if (!skipSave) {
-        saveMessage(msg, isPersonal, time);
-    }
 }
 
 // =============== TYPING / INPUT ===============
@@ -309,12 +249,12 @@ function handleCommand(cmd) {
 
     if (c === '/help') {
         addMessageToPage(
-            'Commands:\n/help – show this help\n/about – about Idris Bot\n/github – my GitHub profile\n/skills – short list of my skills',
+            'Commands:\n/help – show this help\n/about – about Edrees Bot\n/github – my GitHub profile\n/skills – short list of my skills',
             false
         );
     } else if (c === '/about') {
         addMessageToPage(
-            'I am Idris Bot, a fake chat built by Edrees to practice HTML/CSS/JS and UI design.',
+            'I am Edrees Bot, a fake chat built by Edrees to practice HTML/CSS/JS and UI design.',
             false
         );
     } else if (c === '/github') {
@@ -336,7 +276,7 @@ function getBotReply(text) {
     const t = text.toLowerCase();
 
     if (t.includes('who are you') || t.includes('kimsin') || t.includes('neresin')) {
-        return "I'm Idris Bot, a friendly assistant created by Edrees.";
+        return "I'm Edrees Bot, a friendly assistant created by Edrees.";
     }
     if (t.includes('project') || t.includes('proje')) {
         return 'This fake chat project is for practicing UI, JavaScript, and creative design.';
@@ -371,7 +311,7 @@ function fakeMessage() {
     figure.append(image);
 
     const dotsSpan = $('<span></span>');
-    const label = $('<div class="typing-label"></div>').text('Idris is typing...');
+    const label = $('<div class="typing-label"></div>').text('Edrees is typing...');
 
     loadingMessage.append(figure).append(dotsSpan).append(label);
     $('.mCSB_container').append(loadingMessage);
