@@ -1,7 +1,20 @@
 # Edrees-Fake-Chat-App
 
+---
+
+## 📷 Preview
+
+<p align="center">
+  <img src="images/welcome.png" alt="Welcome Screen" width="260" />
+  <img src="images/chat1.png" alt="Chat Dark Theme" width="260" />
+  <img src="images/chat2.png" alt="Chat Neon Theme" width="260" />
+</p>
+
+---
+## 🎯 Overview
+
 A modern, single-page **fake chat interface** built with HTML, CSS and JavaScript.  
-This project simulates a conversation between the user and **Idris Bot** and is mainly designed to showcase:
+This project simulates a conversation between the user and **Edrees Bot** and is mainly designed to showcase:
 
 - Clean UI design
 - Front-end JavaScript logic
@@ -18,7 +31,7 @@ This project simulates a conversation between the user and **Idris Bot** and is 
 - When you open or refresh the page, a **welcome overlay** appears.
 - You enter your **name**, and it is displayed in the chat header.
 - The conversation always starts **fresh** with a greeting like:  
-  `Hi Edrees, I'm Idris Bot 🤖. Type /help to see what I can do.`
+  `Hi Mais, I'm Edrees Bot 🤖. Type /help to see what I can do.`
 - The name is **not stored** after the session ends – you enter it again each time.
 
 ### 🌓 Theme Switcher (Dark / Neon) with Persistence
@@ -34,7 +47,7 @@ This project simulates a conversation between the user and **Idris Bot** and is 
   - `Typing speed: 3.4 chars/sec`
 - It resets automatically when the message is sent or the input is cleared.
 
-### 🤖 Idris Bot – Simple Assistant Behavior
+### 🤖 Edrees Bot – Simple Assistant Behavior
 
 The bot responds in two ways:
 
@@ -50,11 +63,11 @@ The bot responds in two ways:
 
 2. **Slash commands** (start with `/`):  
    - `/help` – list available commands  
-   - `/about` – short description of Idris Bot  
+   - `/about` – short description of Edrees Bot  
    - `/github` – link to the creator’s GitHub profile  
    - `/skills` – small list of skills / technologies
 
-Commands are answered immediately; normal messages show a **“Idris is typing…”** bubble with animated dots before the reply.
+Commands are answered immediately; normal messages show a **“Edrees is typing…”** bubble with animated dots before the reply.
 
 ### 📅 Timestamps & Date Separators
 - Messages include a **time stamp** in `HH:MM` format.
@@ -68,7 +81,7 @@ Commands are answered immediately; normal messages show a **“Idris is typing�
 - Background uses a blurred image (`logo.jpg`) with a soft gradient.
 - Chat window has a **fade-in up** animation on load.
 - Messages pop in with a **bounce** animation.
-- Bot typing bubble shows three animated dots and “Idris is typing…” label.
+- Bot typing bubble shows three animated dots and “Edrees is typing…” label.
 
 ---
 
@@ -98,6 +111,10 @@ Commands are answered immediately; normal messages show a **“Idris is typing�
 ├── index.html       # Main HTML page and layout structure
 ├── style.css        # Styling, themes, and animations
 ├── index.js         # Chat logic and bot behavior
-├── fox.webp         # Avatar image used for Idris Bot
+├── fox.webp         # Avatar image used for Edrees Bot
 ├── logo.jpg         # Background image used for blurred gradient effect
 └── images/          # (Optional) Extra screenshots or assets
+
+```
+
+
