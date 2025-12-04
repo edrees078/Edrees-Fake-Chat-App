@@ -4,11 +4,21 @@
 
 ## 📷 Preview
 
-<p align="center">
-  <img src="images/welcome.png" alt="Welcome Screen" width="260" />
-  <img src="images/chat1.png" alt="Chat Dark Theme" width="260" />
-  <img src="images/chat2.png" alt="Chat Neon Theme" width="260" />
-</p>
+### Welcome Screen
+
+![Welcome_screen](images/welcome.png)
+
+---
+
+### Chat Page (Dark Theme)
+
+![Chat_dark_theme](images/chat1.png)
+
+---
+
+### Chat Page (Neon Theme)
+
+![Chat_neon_theme](images/chat2.png)
 
 ---
 ## 🎯 Overview
